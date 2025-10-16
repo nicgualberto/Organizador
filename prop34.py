@@ -10,47 +10,67 @@ st.set_page_config(
     layout="centered"
 )
 
-# Configuração do tema azul e branco
+# Configuração do tema azul
 st.markdown("""
     <style>
     .main {
-        background-color: #ffffff;
+        background-color: #1e3a8a;
     }
     .stApp {
-        background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
+        background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+        color: white;
     }
     .header {
-        color: #1e3a8a;
+        color: white;
         text-align: center;
         padding: 1rem;
     }
     .task-card {
-        background-color: white;
+        background-color: rgba(255, 255, 255, 0.1);
         padding: 1rem;
         margin: 0.5rem 0;
         border-radius: 10px;
         border-left: 4px solid #3b82f6;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        backdrop-filter: blur(10px);
     }
     .idea-card {
-        background-color: white;
+        background-color: rgba(255, 255, 255, 0.1);
         padding: 1rem;
         margin: 0.5rem 0;
         border-radius: 10px;
         border-left: 4px solid #60a5fa;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        backdrop-filter: blur(10px);
     }
     .assistant-message {
-        background-color: #dbeafe;
+        background-color: rgba(255, 255, 255, 0.15);
         padding: 1rem;
         border-radius: 10px;
         margin: 0.5rem 0;
+        backdrop-filter: blur(10px);
+    }
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 8px;
+    }
+    .stTabs [data-baseweb="tab"] {
+        height: 50px;
+        white-space: pre-wrap;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 8px 8px 0px 0px;
+        gap: 8px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        color: white;
+    }
+    .stTabs [aria-selected="true"] {
+        background-color: rgba(255, 255, 255, 0.2);
+        color: white;
     }
     </style>
 """, unsafe_allow_html=True)
 
 # Configuração da API
 try:
+    key = os.getenv("API_KEY")
     genai.configure(api_key=st.secrets["API_KEY"])
 except:
     st.error("⚠️ API KEY não configurada. Configure suas credenciais.")
@@ -98,6 +118,7 @@ with tab1:
     # Lista de tarefas
     if st.session_state.tarefas:
         for i, tarefa in enumerate(st.session_state.tarefas):
+            st.markdown(f'<div class="task-card">', unsafe_allow_html=True)
             col1, col2, col3 = st.columns([6, 2, 2])
             with col1:
                 if tarefa["concluida"]:
@@ -114,6 +135,7 @@ with tab1:
                 if st.button("🗑️", key=f"excluir_{i}"):
                     st.session_state.tarefas.pop(i)
                     st.rerun()
+            st.markdown('</div>', unsafe_allow_html=True)
     else:
         st.info("🎉 Nenhuma tarefa pendente! Adicione uma nova tarefa acima.")
 
