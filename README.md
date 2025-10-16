@@ -7,6 +7,8 @@
 
 **FocusFlow** é uma aplicação web inteligente para organização pessoal que combina gestão de tarefas, registro de ideias e um assistente IA integrado para ajudar na produtividade.
 
+Site para teste: https://focusflow-ae5lidvunkc3raip4u6eyi.streamlit.app/
+
 ## ✨ Funcionalidades
 
 ### 🗓️ Gestão de Tarefas
