@@ -61,7 +61,7 @@ st.markdown("""
 
 # Configuração da API usando os.getenv
 key = os.getenv("API_KEY")
-genai.configure(api_key=st.screts["API_KEY"])
+genai.configure(api_key=st.secrets["API_KEY"])
 
 if not api_key:
     st.error("""
