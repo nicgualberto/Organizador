@@ -52,5 +52,5 @@ Site para teste: https://focusflow-ae5lidvunkc3raip4u6eyi.streamlit.app/
 
 1. **Clone o repositório:**
 ```bash
-git clone https://github.com/seu-usuario/focusflow.git
-cd focusflow
+git clone https://github.com/nicgualberto/Organizador.git
+cd Organizador
