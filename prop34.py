@@ -95,7 +95,7 @@ if "ideias" not in st.session_state:
 
 # Header
 st.markdown('<div class="header">', unsafe_allow_html=True)
-st.title("📝 Organizador Diário IA")
+st.title("📝 FocusFlow")
 st.markdown(f"### {date.today().strftime('%d/%m/%Y')}")
 st.markdown("</div>", unsafe_allow_html=True)
 
