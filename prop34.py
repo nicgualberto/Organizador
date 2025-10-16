@@ -60,7 +60,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Configuração da API usando os.getenv
-api_key = os.getenv("API_KEY")
+key = os.getenv("API_KEY")
 genai.configure(api_key=st.screts["API_KEY"])
 
 if not api_key:
@@ -80,7 +80,7 @@ if not api_key:
     st.stop()
 
 try:
-    genai.configure(api_key=api_key)
+    genai.configure(api_key=key)
 except Exception as e:
     st.error(f"❌ Erro ao configurar a API: {e}")
     st.stop()
