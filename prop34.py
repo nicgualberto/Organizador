@@ -3,6 +3,19 @@ import google.generativeai as genai
 import os
 from datetime import datetime, date
 
+try:
+    import google.generativeai as genai
+except ImportError:
+    st.error("""
+    📦 Biblioteca necessária não encontrada!
+    
+    Para instalar, execute no terminal:
+    ```bash
+    pip install google-generativeai
+    ```
+    """)
+    st.stop()
+
 # Configuração da página
 st.set_page_config(
     page_title="Organizador Diário IA",
@@ -10,70 +23,66 @@ st.set_page_config(
     layout="centered"
 )
 
-# Configuração do tema azul
+# REMOVIDO: CSS personalizado do fundo para usar tema nativo do Streamlit
+# Apenas mantemos o CSS para os cards e outros elementos
 st.markdown("""
     <style>
-    .main {
-        background-color: #1e3a8a;
-    }
-    .stApp {
-        background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
-        color: white;
-    }
     .header {
-        color: white;
         text-align: center;
         padding: 1rem;
     }
     .task-card {
-        background-color: rgba(255, 255, 255, 0.1);
+        background-color: var(--background-color);
         padding: 1rem;
         margin: 0.5rem 0;
         border-radius: 10px;
         border-left: 4px solid #3b82f6;
-        backdrop-filter: blur(10px);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        border: 1px solid var(--border-color);
     }
     .idea-card {
-        background-color: rgba(255, 255, 255, 0.1);
+        background-color: var(--background-color);
         padding: 1rem;
         margin: 0.5rem 0;
         border-radius: 10px;
         border-left: 4px solid #60a5fa;
-        backdrop-filter: blur(10px);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        border: 1px solid var(--border-color);
     }
     .assistant-message {
-        background-color: rgba(255, 255, 255, 0.15);
+        background-color: var(--secondary-background-color);
         padding: 1rem;
         border-radius: 10px;
         margin: 0.5rem 0;
-        backdrop-filter: blur(10px);
-    }
-    .stTabs [data-baseweb="tab-list"] {
-        gap: 8px;
-    }
-    .stTabs [data-baseweb="tab"] {
-        height: 50px;
-        white-space: pre-wrap;
-        background-color: rgba(255, 255, 255, 0.1);
-        border-radius: 8px 8px 0px 0px;
-        gap: 8px;
-        padding-top: 10px;
-        padding-bottom: 10px;
-        color: white;
-    }
-    .stTabs [aria-selected="true"] {
-        background-color: rgba(255, 255, 255, 0.2);
-        color: white;
+        border: 1px solid var(--border-color);
     }
     </style>
 """, unsafe_allow_html=True)
 
-# Configuração da API
+# Configuração da API usando os.getenv
+api_key = os.getenv("API_KEY")
+genai.configure(api_key=st.screts["API_KEY"])
+
+if not api_key:
+    st.error("""
+    🔑 API KEY não encontrada! 
+    
+    Para usar esta aplicação, configure a variável de ambiente:
+    
+    **No Streamlit Cloud:**
+    - Vá em: Settings → Secrets
+    - Adicione: `GEMINI_API_KEY = "sua_chave_aqui"`
+    
+    **Localmente:**
+    - Crie arquivo `.env` com: `GEMINI_API_KEY=sua_chave_aqui`
+    - Ou configure no sistema
+    """)
+    st.stop()
+
 try:
-    key = os.getenv("API_KEY")
-    genai.configure(api_key=st.secrets["API_KEY"])
-except:
-    st.error("⚠️ API KEY não configurada. Configure suas credenciais.")
+    genai.configure(api_key=api_key)
+except Exception as e:
+    st.error(f"❌ Erro ao configurar a API: {e}")
     st.stop()
 
 # Inicialização do estado da sessão
