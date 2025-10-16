@@ -18,7 +18,7 @@ except ImportError:
 
 # Configuração da página
 st.set_page_config(
-    page_title="Organizador Diário IA",
+    page_title="FocusFlow",
     page_icon="📝",
     layout="centered"
 )
